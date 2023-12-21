@@ -64,7 +64,6 @@ $(document).ready(function () {
                         <i class="bi bi-repeat me-2"></i>
                         <i onclick='showAction(this)' class="bi bi-three-dots"></i>
                         <ul class="task-menu">
-                          <li onclick='editTask(${data.id})'><i class="bi bi-pencil-square"></i>Edit</li>
                           <li onclick='deleteTask(${data.id})'><i class="bi bi-trash"></i>Delete</li>
                         </ul>
                       </div>

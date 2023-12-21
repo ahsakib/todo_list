@@ -42,12 +42,7 @@ class Todo{
 
 
         $result=mysqli_query($this->db_connect,$insertData);
-        // if($result){
-        //     return [
-        //         'TaskName' => $data['TaskName'],
-        //         'id'=>mysqli_insert_id($this->db_connect)
-        //     ];
-        // }
+
     }
 
     function editData($data){

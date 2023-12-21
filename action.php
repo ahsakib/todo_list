@@ -2,7 +2,7 @@
 
 include "class/Todo.php";
 $todo=new Todo();
-// var_dump($_POST);
+
 if(isset($_POST['saveData']) && $_POST['saveData']=="save"){
     $data=[
         "TaskName"=>$_POST['TaskName'],
@@ -25,7 +25,6 @@ if(isset($_POST['saveData']) && $_POST['saveData']=="edit"){
         'id'=>$_POST['id']
     ];
     $todo->editData($data);
-    // var_dump($todo);
 }
 
 if(isset($_GET['getData']) && $_GET['getData']=="all-data"){
