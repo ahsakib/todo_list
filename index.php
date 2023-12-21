@@ -94,7 +94,17 @@
       <div class="filters">
         <span class="active" id="all">All</span>
         <span id="pending">Pending</span>
-        <span id="completed">Completed</span>
+        <!-- <span id="completed">Completed</span> -->
+        
+        <span id="completed" class="position-relative">
+          complete
+          <span id="noti__badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+            99+
+          </span>
+        </span>
+
+
+
       </div>
       <button class="clear_btn btn btn-info">Clear All</button>
 
@@ -102,7 +112,7 @@
         <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           Filter
         </button>
-        <ul class="dropdown-menu" style="">
+        <ul class="dropdown-menu">
           <li><a class="dropdown-item" href="#">Ascending</a></li>
           <li><a class="dropdown-item" href="#">Descending</a></li>
           <li><a class="dropdown-item" href="#">High</a></li>
@@ -115,7 +125,13 @@
     </div>
 
     <table class="table text-white mb-0">
-      <tbody class="insert_value">
+      <tbody class="insert_value all display-none">
+          
+      </tbody>
+      <tbody class="insert_value pending display-none">
+
+      </tbody>
+      <tbody class="insert_value completed display-none">
 
       </tbody>
     </table>
@@ -123,41 +139,7 @@
 
   <!-- <script src="script.js"></script> -->
   <script src="js/app.js"></script>
-
-<script>
-  // $(document).ready(function () {
-    // // Function to initialize the datepicker
-    // function initDatepicker() {
-    //   $("#datepicker-container").datepicker({
-    //     dateFormat: "yy-mm-dd", // Format the date as YYYY-MM-DD
-    //     onSelect: function (dateText) {
-    //       console.log("Selected date:", dateText);
-    //       // You can do more with the selected date here
-    //     },
-    //   });
-    // }
-
-    // // Show datepicker when the button is clicked
-    // $("#dueDate").click(function () {
-    //   // Check if datepicker is already initialized
-    //   if ($("#datepicker-container").is(":empty")) {
-    //     // If not, initialize datepicker
-    //     initDatepicker();
-    //   }
-      
-    //   // Show datepicker container
-    //   $("#datepicker-container").show();
-    // });
-
-    // // Hide datepicker when clicking outside of it
-    // $(document).mouseup(function (e) {
-    //   var container = $("#datepicker-container");
-    //   if (!container.is(e.target) && container.has(e.target).length === 0) {
-    //     container.hide();
-    //   }
-    // });
-  // });
-</script>
+  <script src="js/complete.js"></script>
 </body>
 
 </html>

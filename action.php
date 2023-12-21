@@ -14,7 +14,9 @@ if(isset($_POST['saveData']) && $_POST['saveData']=="save"){
         $data+=$arr;
     }
     $value=$todo->saveData($data);
-    echo json_encode($value);
+
+    $todo->getData();
+
 }
 
 if(isset($_POST['saveData']) && $_POST['saveData']=="edit"){
@@ -27,8 +29,7 @@ if(isset($_POST['saveData']) && $_POST['saveData']=="edit"){
 }
 
 if(isset($_GET['getData']) && $_GET['getData']=="all-data"){
-    $all=$todo->getData();
-    echo json_encode($all);
+    $todo->getData();
 }
 
 if(isset($_POST['delate']) && $_POST['delate']=="deleteData"){
@@ -37,5 +38,15 @@ if(isset($_POST['delate']) && $_POST['delate']=="deleteData"){
     echo $value;
 }
 
+if(isset($_POST['completeId'])){
+    $completeData=$todo->completeDataSave($_POST);
+    $countData=$todo->getCountCompleteData();
 
+    echo json_encode(['data'=>$completeData,"count"=>$countData]);
+
+}
+
+if(isset($_POST['getCompleteData'])){
+    $todo->getCompleteData();
+}
 ?> 

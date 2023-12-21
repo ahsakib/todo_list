@@ -123,58 +123,13 @@ inputFiledValue.addEventListener("keypress", function (e) {
         },
         dataType: "json",
         success: function (response) {
-          console.log(response);
-          var dueDateHtml='';
-          if(dueDate){
-            let due_date = getDateWithFormat(dueDate);
-            dueDateHtml = `<span><i class="bi bi-calendar-event"></i> ${due_date}</span>`;
-          }
-          let priorityColumn = "";
-          if (selectedValue) {
-            priorityColumn = `
-                <td class="align-middle">
-                  <h6 class="mb-0">
-                    <span class="badge ${badge}">${selectedValue} priority</span>
-                  </h6>
-                </td>
-              `;
-          } else {
-            priorityColumn = `
-                <td class="align-middle">
-                  <h6 class="mb-0">
-  
-                  </h6>
-                </td>
-              `;
-          }
-          const html = `<tr class="task-box" id="task_row_${response.id}">
-          <td class="align-middle">
-            <label class="d-flex align-items-center">
-              <input type="checkbox" id="0" class="ms-3" />
-              <p class="mb-0 ms-2">${response.TaskName}</p>
-            </label>
-            <div class='all-siteElement'>
-                <span>Task<i class="bi bi-dot dot-icon"></i></span>
-                ${dueDateHtml}
-                <span><i class="bi bi-bell"></i> Tomorrow</span>
-                <span><i class="bi bi-tags"></i> shakib</span>
-            </div>
-          </td>
-          ${priorityColumn}
+          $(".all").empty();
+          var data=response.data
+          $("#noti__badge").html(response.numCompleteTask);
+          data.forEach(function (data) {
+              renderTaskRow(data, selectedValue, badge);
+          });
           
-          <td class="align-middle">
-            <div class="settings">
-              <i class="bi bi-repeat me-2"></i>
-              <i onclick='showAction(this)' class="bi bi-three-dots"></i>
-              <ul class="task-menu">
-                <li onclick='editTask(${response.id})'><i class="bi bi-pencil-square"></i>Edit</li>
-                <li onclick='deleteTask(${response.id})'><i class="bi bi-trash"></i>Delete</li>
-              </ul>
-            </div>
-          </td>
-        </tr>`;
-
-          tbodyData.insertAdjacentHTML("afterbegin", html);
         },
       });
     }
@@ -233,58 +188,10 @@ $(document).ready(function () {
     },
     dataType: "json",
     success: function (response) {
-      response.forEach(function (data) {
-        var dueDateHtml='';
-        if(data.due_date){
-          let due_date = getDateWithFormat(data.due_date);
-          dueDateHtml= `<span><i class="bi bi-calendar-event"></i> ${due_date}</span>`;
-        }
-        let priorityColumn = "";
-        if (selectedValue) {
-          priorityColumn = `
-              <td class="align-middle">
-                <h6 class="mb-0">
-                  <span class="badge ${badge}">${selectedValue} priority</span>
-                </h6>
-              </td>
-            `;
-        } else {
-          priorityColumn = `
-              <td class="align-middle">
-                <h6 class="mb-0">
-
-                </h6>
-              </td>
-            `;
-        }
-        const html = `<tr class="task-box" id="task_row_${data.id}">
-        <td class="align-middle">
-          <label class="d-flex align-items-center">
-            <input type="checkbox" id="0" class="ms-3" />
-            <p class="mb-0 ms-2">${data.task_name}</p>
-          </label>
-          <div class='all-siteElement'>
-              <span>Task<i class="bi bi-dot dot-icon"></i></span>
-              ${dueDateHtml}
-              <span><i class="bi bi-bell"></i> Tomorrow</span>
-              <span><i class="bi bi-tags"></i> shakib</span>
-          </div>
-        </td>
-        ${priorityColumn}
-        
-        <td class="align-middle">
-          <div class="settings">
-            <i class="bi bi-repeat me-2"></i>
-            <i onclick='showAction(this)' class="bi bi-three-dots"></i>
-            <ul class="task-menu">
-              <li onclick='editTask(${data.id})'><i class="bi bi-pencil-square"></i>Edit</li>
-              <li onclick='deleteTask(${data.id})'><i class="bi bi-trash"></i>Delete</li>
-            </ul>
-          </div>
-        </td>
-      </tr>`;
-
-        tbodyData.insertAdjacentHTML("afterbegin", html);
+      var data=response.data
+      $("#noti__badge").html(response.numCompleteTask);
+      data.forEach(function (data) {
+          renderTaskRow(data, selectedValue, badge);
       });
     },
     error: function (error) {
@@ -296,4 +203,60 @@ $(document).ready(function () {
 
 function datePickerValue(data){
   return data;
+}
+
+function renderTaskRow(data, selectedValue, badge) {
+  var dueDateHtml = '';
+  if (data.due_date) {
+      let due_date = getDateWithFormat(data.due_date);
+      dueDateHtml = `<span><i class="bi bi-calendar-event"></i> ${due_date}</span>`;
+  }
+
+  let priorityColumn = "";
+  if (selectedValue) {
+      priorityColumn = `
+          <td class="align-middle">
+              <h6 class="mb-0">
+                  <span class="badge ${badge}">${selectedValue} priority</span>
+              </h6>
+          </td>
+      `;
+  } else {
+      priorityColumn = `
+          <td class="align-middle">
+              <h6 class="mb-0">
+
+              </h6>
+          </td>
+      `;
+  }
+
+  const html = `<tr class="task-box dashboard" id="task_row_${data.id}">
+      <td class="align-middle">
+          <label class="d-flex align-items-center">
+              <input type="checkbox" value="y" id="${data.id}" class="ms-3" />
+              <p class="mb-0 ms-2">${data.task_name}</p>
+          </label>
+          <div class='all-siteElement'>
+              <span>Task<i class="bi bi-dot dot-icon"></i></span>
+              ${dueDateHtml}
+              <span><i class="bi bi-bell"></i> Tomorrow</span>
+              <span><i class="bi bi-tags"></i>  shakib</span>
+          </div>
+      </td>
+      ${priorityColumn}
+
+      <td class="align-middle">
+          <div class="settings">
+              <i class="bi bi-repeat me-2"></i>
+              <i onclick='showAction(this)' class="bi bi-three-dots"></i>
+              <ul class="task-menu">
+                  <li onclick='editTask(${data.id})'><i class="bi bi-pencil-square"></i>Edit</li>
+                  <li onclick='deleteTask(${data.id})'><i class="bi bi-trash"></i>Delete</li>
+              </ul>
+          </div>
+      </td>
+  </tr>`;
+
+  tbodyData.insertAdjacentHTML("afterbegin", html);
 }

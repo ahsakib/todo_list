@@ -80,6 +80,14 @@ body {
   border: 1px solid #999;
 }
 
+.display-none{
+  display: none;
+}
+#noti__badge{
+  margin-left: 5px;
+  font-size: 9px;
+}
+
 .task-input input:focus,
 .task-input input.active {
   padding-left: 52px;

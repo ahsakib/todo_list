@@ -42,12 +42,12 @@ class Todo{
 
 
         $result=mysqli_query($this->db_connect,$insertData);
-        if($result){
-            return [
-                'TaskName' => $data['TaskName'],
-                'id'=>mysqli_insert_id($this->db_connect)
-            ];
-        }
+        // if($result){
+        //     return [
+        //         'TaskName' => $data['TaskName'],
+        //         'id'=>mysqli_insert_id($this->db_connect)
+        //     ];
+        // }
     }
 
     function editData($data){
@@ -56,7 +56,12 @@ class Todo{
     }
 
     function getData(){
-        $allData='SELECT * FROM '.$this->taskTable;
+        $allData = "SELECT * FROM `$this->taskTable` WHERE `complete` != 'y' OR `complete` IS NULL";
+        $countCompleteY = "SELECT COUNT(*) AS numComplete FROM `$this->taskTable` WHERE `complete` = 'y'";
+        $completeTask=mysqli_query($this->db_connect,$countCompleteY);
+        $countResult = mysqli_fetch_assoc($completeTask);
+        $numCompleteTask = $countResult['numComplete'];
+        
         $result=mysqli_query($this->db_connect,$allData);
         $all=[];
         if($result){
@@ -64,7 +69,8 @@ class Todo{
                 $all[]=$row;
             }
         }
-        return $all;
+
+         echo json_encode(['data'=>$all,"numCompleteTask"=>$numCompleteTask]);
     }
 
     function deleteData($data){
@@ -73,6 +79,41 @@ class Todo{
         if($result){
             return true;
         }
+    }
+
+    function completeDataSave($data){
+        $val=$data['completeValue'];
+        $id=$data['completeId'];
+        $sql = 'UPDATE `'.$this->taskTable.'` SET complete = "'.$val.'" WHERE id = "'.$id.'"';
+        $result=mysqli_query($this->db_connect,$sql);
+
+        if($result){
+            return true;
+        }
+
+    }
+
+
+    function getCompleteData(){
+        $sql="SELECT * FROM `$this->taskTable` WHERE `complete`='y'";
+
+        $result=mysqli_query($this->db_connect,$sql);
+        $all=[];
+        if($result){
+            while($row=mysqli_fetch_assoc($result)){
+                $all[]=$row;
+            }
+        }
+        echo json_encode(['success'=>true,'data'=>$all]);
+    }
+
+    function getCountCompleteData(){
+        $countCompleteY = "SELECT COUNT(*) AS numComplete FROM `$this->taskTable` WHERE `complete` = 'y'";
+        $completeTask=mysqli_query($this->db_connect,$countCompleteY);
+        $countResult = mysqli_fetch_assoc($completeTask);
+        $numCompleteTask = $countResult['numComplete'];
+
+        return $numCompleteTask;
     }
 
 
